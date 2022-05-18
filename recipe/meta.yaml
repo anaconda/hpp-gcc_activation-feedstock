@@ -147,6 +147,9 @@ outputs:
         - {{ pin_subpackage("gxx_" ~ target_platform) }}
         - {{ pin_subpackage("gfortran_" ~ target_platform) }}
         - {{ pin_subpackage("binutils_" ~ target_platform) }}
+      run:
+        - libstdcxx-ng >=4.9
+        - libgcc-ng >=4.9
     build:
       always_include_files:
         - bin/
@@ -156,6 +159,9 @@ outputs:
         - libexec/
         - share/
         - {{ cpu_arch }}-conda-linux-gnu/
+      missing_dso_whitelist:
+        - /lib64/libc.so.6
+        - /lib64/libm.so.6
     test:
       commands:
         - test -f $PREFIX/bin/{{ cpu_arch }}-conda-linux-gnu-cc
