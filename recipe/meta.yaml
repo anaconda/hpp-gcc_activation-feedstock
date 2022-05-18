@@ -160,8 +160,7 @@ outputs:
         - share/
         - {{ cpu_arch }}-conda-linux-gnu/
       missing_dso_whitelist:
-        - /lib64/libc.so.6
-        - /lib64/libm.so.6
+        - "*"
     test:
       commands:
         - test -f $PREFIX/bin/{{ cpu_arch }}-conda-linux-gnu-cc
