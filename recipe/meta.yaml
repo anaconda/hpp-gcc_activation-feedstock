@@ -139,37 +139,6 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
 
-  - name: gcc_bootstrap_{{ target_platform }}
-    version: {{ version }}
-    requirements:
-      host:
-        - {{ pin_subpackage("gcc_" ~ target_platform) }}
-        - {{ pin_subpackage("gxx_" ~ target_platform) }}
-        - {{ pin_subpackage("gfortran_" ~ target_platform) }}
-        - {{ pin_subpackage("binutils_" ~ target_platform) }}
-      run:
-        - libstdcxx-ng >=4.9
-        - libgcc-ng >=4.9
-    build:
-      always_include_files:
-        - bin/
-        - etc/
-        - lib64/
-        - lib/
-        - libexec/
-        - share/
-        - {{ cpu_arch }}-conda-linux-gnu/
-      missing_dso_whitelist:
-        - "*"
-    test:
-      commands:
-        - test -f $PREFIX/bin/{{ cpu_arch }}-conda-linux-gnu-cc
-    about:
-      summary: GCC bootstrap compilers for building deps
-      home: https://github.com/AnacondaRecipes/gcc_activation-feedstock
-      license: GPL
-      license_file: GPL_LICENSE
-
 about:
   summary: Activation scripts for gcc, g++, gfortran and binutils
   home: https://github.com/AnacondaRecipes/gcc_activation-feedstock
