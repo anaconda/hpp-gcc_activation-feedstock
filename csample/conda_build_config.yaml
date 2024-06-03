@@ -1,0 +1,13 @@
+c_compiler:
+  - gcc_v1
+  - gcc_v2
+  - gcc_v3
+  - gcc_v4
+x86_64_level:
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+zip_keys:
+  - c_compiler
+  - x86_64_level

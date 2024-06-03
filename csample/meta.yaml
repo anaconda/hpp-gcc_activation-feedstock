@@ -1,0 +1,11 @@
+package:
+  name: csample
+  version: "1.0.0"
+
+build:
+  number: 0
+  string: arch_v{{ x86_64_level }}
+
+requirements:
+  build:
+    - {{ compiler('c') }}
