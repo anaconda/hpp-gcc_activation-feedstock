@@ -21,17 +21,19 @@ requirements:
     - gcc_impl_{{ target_platform }}
 
 outputs:
-  - name: gcc_{{ target_platform }}
+  - name: gcc_v{{ x86_64_level }}_{{ target_platform }}
     script: install-gcc.sh
     requirements:
       run:
         - gcc_impl_{{ target_platform }} {{ version }}.*
         # for activation of binutils env vars
-        - {{ pin_subpackage("binutils_" ~ target_platform, exact=True) }}
+        - {{ pin_subpackage("binutils_v" ~ x86_64_level ~ "_" ~ target_platform, exact=True) }}
         - sysroot_{{ target_platform }}
     run_exports:
       strong:
         - libgcc-ng >={{ version }}
+        - _x86_64-microarch-level >={{ x86_64_level }}
+
     test:
       requires:
         - sysroot_{{ target_platform }} {{ glibc_version }}
@@ -52,15 +54,15 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
 
-  - name: gxx_{{ target_platform }}
+  - name: gxx_v{{ x86_64_level }}_{{ target_platform }}
     script: install-g++.sh
     requirements:
       run:
         - gxx_impl_{{ target_platform }} {{ version }}.*
         # for activation of gcc env vars
-        - {{ pin_subpackage("gcc_" ~ target_platform, exact=True) }}
+        - {{ pin_subpackage("gcc_v" ~ x86_64_level ~ "_" ~ target_platform, exact=True) }}
         # for activation of binutils env vars
-        - {{ pin_subpackage("binutils_" ~ target_platform, exact=True) }}
+        - {{ pin_subpackage("binutils_v" ~ x86_64_level ~ "_" ~ target_platform, exact=True) }}
         - sysroot_{{ target_platform }}
     test:
       requires:
@@ -78,13 +80,14 @@ outputs:
         - libstdcxx-ng >={{ version }}
         # Because transitive run_exports do not work:
         - libgcc-ng >={{ version }}
+        - _x86_64-microarch-level >={{ x86_64_level }}
     about:
       summary: GNU C++ Compiler (activation scripts)
       home: https://github.com/AnacondaRecipes/gcc_activation-feedstock
       license: BSD-3-Clause
       license_file: LICENSE
 
-  - name: gfortran_{{ target_platform }}
+  - name: gfortran_v{{ x86_64_level }}_{{ target_platform }}
     script: install-gfortran.sh
     requirements:
       host:
@@ -94,9 +97,9 @@ outputs:
       run:
         - gfortran_impl_{{ target_platform }} {{ version }}.*
         # for activation of gcc env vars:
-        - {{ pin_subpackage("gcc_" ~ target_platform, exact=True) }}
+        - {{ pin_subpackage("gcc_v" ~ x86_64_level ~ "_" ~ target_platform, exact=True) }}
         # for activation of binutils env vars:
-        - {{ pin_subpackage("binutils_" ~ target_platform, exact=True) }}
+        - {{ pin_subpackage("binutils_v" ~ x86_64_level ~ "_" ~ target_platform, exact=True) }}
         - sysroot_{{ target_platform }}
     run_exports:
       strong:
@@ -104,6 +107,7 @@ outputs:
         - libgfortran-ng
         # Because transitive run_exports do not work:
         - libgcc-ng >={{ version }}
+        - _x86_64-microarch-level >={{ x86_64_level }}
     test:
       requires:
         - cmake >=3.11
@@ -121,7 +125,7 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
 
-  - name: binutils_{{ target_platform }}
+  - name: binutils_v{{ x86_64_level }}_{{ target_platform }}
     version: "{{ binutils_version }}"
     script: install-binutils.sh
     requirements:
